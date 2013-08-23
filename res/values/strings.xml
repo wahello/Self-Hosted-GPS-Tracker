@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GPS Self-Hosted Tracker</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="button_stop">Stop</string>
+    <string name="menu_settings">Settings</string>
+    <string name="toast_started">Started</string>
+	<string name="toast_stopped">Stopped</string>
+</resources>
