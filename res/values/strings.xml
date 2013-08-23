@@ -2,9 +2,22 @@
 <resources>
 
     <string name="app_name">GPS Self-Hosted Tracker</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="button_stop">Stop</string>
+    
+    <string name="button_toggle">Stop</string>
+    
+    <string name="hint_url">http://server/path</string>
+    
     <string name="menu_settings">Settings</string>
+    
+    <string name="text_legend_url_0">Send GPS coordinates to :</string>
+    <string name="text_legend_url_1">Example: http://myself.com/gps</string>
+    <string name="text_legend_url_2">latitude and longitude will be added automatically</string>
+    <string name="text_legend_url_3">as in http://myself.com/gps?lat=…&amp;lon=…</string>
+    
+    <string name="text_gps_status">Unknown GPS status</string>
+    <string name="text_gps_status_enabled">GPS enabled</string>
+    <string name="text_gps_status_disabled">Warning ! GPS disabled !</string>
+    
     <string name="toast_started">Started</string>
 	<string name="toast_stopped">Stopped</string>
 </resources>

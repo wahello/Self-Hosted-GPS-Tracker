@@ -3,22 +3,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SelfHostedGPSTrackerActivity" >
+    
+    
+    <EditText
+        android:id="@+id/edit_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/text_legend_url_0"
+        android:ems="10"
+        android:hint="@string/hint_url"
+        android:inputType="textUri" >
+
+        <requestFocus />
+    </EditText>
+    
+    <TextView
+        android:id="@+id/text_legend_url_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/edit_url"
+        android:text="@string/text_legend_url_1"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/text_legend_url_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/text_legend_url_1"
+        android:text="@string/text_legend_url_2"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/text_legend_url_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/text_legend_url_2"
+        android:text="@string/text_legend_url_3"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/text_gps_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/text_gps_status" />
+
+    <ToggleButton
+        android:id="@+id/button_toggle"
+        android:checked="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_gps_status"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
+        android:text="@string/button_toggle" />
+
+    <TextView
+        android:id="@+id/text_legend_url_0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="94dp"
-        android:text="@string/hello_world" />
-
-    <Button
-        android:id="@+id/button_stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_centerVertical="true"
-        android:text="@string/button_stop" />
+        android:text="@string/text_legend_url_0"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

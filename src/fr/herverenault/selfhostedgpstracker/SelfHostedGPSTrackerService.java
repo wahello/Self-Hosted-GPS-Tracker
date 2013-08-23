@@ -23,13 +23,15 @@ import android.widget.Toast;
 public class SelfHostedGPSTrackerService extends Service implements LocationListener {
 
 	private final static String MY_TAG = "SelfHostedGPSTrackerService";
-		
+	public static final String GPS_STATUS = "gps_status";
+	public static final String NOTIFICATION = "fr.herverenault.selfhostedgpstracker";
+
 	// http://developer.android.com/guide/components/services.html#ExtendingService
 	private Looper mServiceLooper;
 	private ServiceHandler mServiceHandler;
-	
+
 	private LocationManager locationManager;
-	
+
 	// Handler that receives messages from the thread
 	private final class ServiceHandler extends Handler {
 		public ServiceHandler(Looper looper) {
@@ -53,19 +55,26 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 			stopSelf(msg.arg1);
 		}
 	}
-	
+
 	@Override
 	public void onCreate() {
 		Log.w(MY_TAG, "dans onCreate");
 
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			onProviderEnabled(LocationManager.GPS_PROVIDER);
+		} else {
+			onProviderDisabled(LocationManager.GPS_PROVIDER);
+		}
+		
+		Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER); // TODO useless ?
 		if (location != null) {
 			Log.w(MY_TAG, "last known location : " + location.getLatitude() + " " + location.getLongitude());
 		} else {
 			Log.w(MY_TAG, "last location unknown.");
 		}
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 3, this); // TODO paramétrable !!!! (30 sec, 3 mètres)
+		
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 3, this); // TODO paramétrable !!!! (30 sec, 3 mètres)
 
 		// Start up the thread running the service.  Note that we create a
 		// separate thread because the service normally runs in the process's
@@ -78,7 +87,7 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		mServiceLooper = thread.getLooper();
 		mServiceHandler = new ServiceHandler(mServiceLooper);
 	}
-	
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Toast.makeText(this, R.string.toast_started, Toast.LENGTH_SHORT).show();
@@ -106,9 +115,9 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		Log.w(MY_TAG, "service done");
 		locationManager.removeUpdates(this);
 	}
-	
+
 	/* -------------- GPS stuff -------------- */
-	
+
 	@Override
 	public void onLocationChanged(Location location) {
 		Toast.makeText(this, location.getLatitude() + "\n" + location.getLongitude(), Toast.LENGTH_SHORT).show();
@@ -131,13 +140,19 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		Toast.makeText(this, provider + " DISabled !", Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(NOTIFICATION);
+		intent.putExtra(GPS_STATUS, R.string.text_gps_status_disabled);
+		sendBroadcast(intent);
+		Toast.makeText(this, R.string.text_gps_status_disabled, Toast.LENGTH_SHORT).show();
 		Log.w(MY_TAG, "Dans onProviderDisabled");
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		Toast.makeText(this, provider + " enabled", Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(NOTIFICATION);
+		intent.putExtra(GPS_STATUS, R.string.text_gps_status_enabled);
+		sendBroadcast(intent);
+		Toast.makeText(this, R.string.text_gps_status_enabled, Toast.LENGTH_SHORT).show();
 		Log.w(MY_TAG, "Dans onProviderEnabled");
 	}
 
