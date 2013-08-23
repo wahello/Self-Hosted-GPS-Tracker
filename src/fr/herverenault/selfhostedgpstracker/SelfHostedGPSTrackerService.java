@@ -26,6 +26,8 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 	public static final String GPS_STATUS = "gps_status";
 	public static final String NOTIFICATION = "fr.herverenault.selfhostedgpstracker";
 
+	public static boolean isRunning;
+	
 	// http://developer.android.com/guide/components/services.html#ExtendingService
 	private Looper mServiceLooper;
 	private ServiceHandler mServiceHandler;
@@ -41,7 +43,7 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		public void handleMessage(Message msg) {
 			Log.w(MY_TAG, "dans ServiceHandler.handleMessage");
 			// TODO paramètre : temps maximum de vie du service ! (24 heures pour le moment)
-			long endTime = System.currentTimeMillis() + 24*60*60*1000;
+			long endTime = System.currentTimeMillis() + 10*1000; //24*60*60*1000;
 			while (System.currentTimeMillis() < endTime) {
 				synchronized (this) {
 					try {
@@ -59,6 +61,7 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 	@Override
 	public void onCreate() {
 		Log.w(MY_TAG, "dans onCreate");
+		isRunning = true;
 
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -114,6 +117,7 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		Toast.makeText(this, R.string.toast_stopped, Toast.LENGTH_SHORT).show();
 		Log.w(MY_TAG, "service done");
 		locationManager.removeUpdates(this);
+		isRunning = false;
 	}
 
 	/* -------------- GPS stuff -------------- */

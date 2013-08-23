@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class SelfHostedGPSTrackerActivity extends Activity implements LocationListener {
@@ -22,6 +23,7 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 	
 	private TextView text_gps_status;
 	private TextView text_network_status;
+	private ToggleButton button_toggle;
 	
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
@@ -43,18 +45,29 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 
 		text_gps_status = (TextView)findViewById(R.id.text_gps_status);
 		text_network_status = (TextView)findViewById(R.id.text_network_status);
+		button_toggle = (ToggleButton)findViewById(R.id.button_toggle);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		// receive messages from the service
 		registerReceiver(receiver, new IntentFilter(SelfHostedGPSTrackerService.NOTIFICATION));
+		// current gps status
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 3, this); // TODO paramétrable !!!! (30 sec, 3 mètres)
 		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			onProviderEnabled(LocationManager.GPS_PROVIDER);
 		} else {
 			onProviderDisabled(LocationManager.GPS_PROVIDER);
+		}
+		// is my service already running or has it stopped ?
+		if (SelfHostedGPSTrackerService.isRunning) {
+			Toast.makeText(this, "Service is running", Toast.LENGTH_SHORT).show(); // TODO toggle button..........
+			button_toggle.setChecked(true);
+		} else {
+			Toast.makeText(this, "Service is NOT running", Toast.LENGTH_SHORT).show(); // TODO toggle button..........
+			button_toggle.setChecked(false);
 		}
 	}
 
