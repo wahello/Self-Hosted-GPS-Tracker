@@ -46,6 +46,14 @@
         android:text="@string/text_legend_url_3"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
+    
+    <TextView
+        android:id="@+id/text_network_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/text_gps_status"
+        android:text="@string/text_network_status" />
     <TextView
         android:id="@+id/text_gps_status"
         android:layout_width="wrap_content"
@@ -56,13 +64,15 @@
 
     <ToggleButton
         android:id="@+id/button_toggle"
-        android:checked="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_gps_status"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="17dp"
-        android:text="@string/button_toggle" />
+        android:checked="false"
+        android:onClick="onToggleClicked"
+        android:textOff="@string/button_toggle"
+        android:textOn="@string/button_toggle" />
 
     <TextView
         android:id="@+id/text_legend_url_0"

@@ -8,15 +8,15 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
-public class SelfHostedGPSTrackerActivity extends Activity implements OnClickListener {
+public class SelfHostedGPSTrackerActivity extends Activity {
 
 	private final static String MY_TAG = "SelfHostedGPSTrackerActivity";
 	
 	private TextView text_gps_status;
+	private TextView text_network_status;
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -35,18 +35,14 @@ public class SelfHostedGPSTrackerActivity extends Activity implements OnClickLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_self_hosted_gpstracker);
 
-		Button button_toggle = (Button)findViewById(R.id.button_toggle);
-		button_toggle.setOnClickListener(this);
-
 		text_gps_status = (TextView)findViewById(R.id.text_gps_status);
+		text_network_status = (TextView)findViewById(R.id.text_network_status);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		registerReceiver(receiver, new IntentFilter(SelfHostedGPSTrackerService.NOTIFICATION));
-		Intent intent = new Intent(this, SelfHostedGPSTrackerService.class);
-		startService(intent); // TODO toggle button !
 	}
 
 	@Override
@@ -55,12 +51,18 @@ public class SelfHostedGPSTrackerActivity extends Activity implements OnClickLis
 		unregisterReceiver(receiver);
 	}
 
-	@Override
-	public void onClick(View v) {
+	public void onToggleClicked(View view) {
+	    boolean on = ((ToggleButton) view).isChecked();
 		Intent intent = new Intent(this, SelfHostedGPSTrackerService.class);
-		stopService(intent); // TODO toggle button !
+	    if (on) {
+			startService(intent);
+	    } else {
+			stopService(intent);
+			text_gps_status.setText("");
+			text_network_status.setText("");
+	    }
 	}
-
+	
 	/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) { // TODO keep it even simpler : no need for settings activity !

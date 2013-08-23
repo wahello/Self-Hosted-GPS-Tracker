@@ -3,7 +3,9 @@
 
     <string name="app_name">GPS Self-Hosted Tracker</string>
     
-    <string name="button_toggle">Stop</string>
+    <string name="button_toggle">Track</string>
+    <string name="button_toggle_start">Start</string>
+    <string name="button_toggle_stop">Stop</string>
     
     <string name="hint_url">http://server/path</string>
     
@@ -13,6 +15,10 @@
     <string name="text_legend_url_1">Example: http://myself.com/gps</string>
     <string name="text_legend_url_2">latitude and longitude will be added automatically</string>
     <string name="text_legend_url_3">as in http://myself.com/gps?lat=…&amp;lon=…</string>
+    
+    <string name="text_network_status">Unknown network status</string>
+    <string name="text_network_status_enabled">Network enabled</string>
+    <string name="text_network_status_disabled">Warning ! Network disabled</string>
     
     <string name="text_gps_status">Unknown GPS status</string>
     <string name="text_gps_status_enabled">GPS enabled</string>
