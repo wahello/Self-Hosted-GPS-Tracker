@@ -132,7 +132,7 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 
 	@Override
 	public void onLocationChanged(Location location) {
-		Toast.makeText(this, location.getLatitude() + "\n" + location.getLongitude(), Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, location.getLatitude() + "\n" + location.getLongitude(), Toast.LENGTH_SHORT).show();
 		Log.w(MY_TAG, "Dans onLocationChanged !!!!!!!!!!!!");
 		try {
 			URL url = new URL("http://herverenault.fr/gps?lat=" + location.getLatitude() + "&lon=" + location.getLongitude());	
@@ -155,7 +155,7 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		Intent intent = new Intent(NOTIFICATION);
 		intent.putExtra(GPS_STATUS, R.string.text_gps_status_disabled);
 		sendBroadcast(intent);
-		Toast.makeText(this, R.string.text_gps_status_disabled, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, R.string.text_gps_status_disabled, Toast.LENGTH_SHORT).show();
 		Log.w(MY_TAG, "Dans onProviderDisabled");
 	}
 
@@ -164,13 +164,13 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		Intent intent = new Intent(NOTIFICATION);
 		intent.putExtra(GPS_STATUS, R.string.text_gps_status_enabled);
 		sendBroadcast(intent);
-		Toast.makeText(this, R.string.text_gps_status_enabled, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, R.string.text_gps_status_enabled, Toast.LENGTH_SHORT).show();
 		Log.w(MY_TAG, "Dans onProviderEnabled");
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		Toast.makeText(this, provider + " status " + status, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, provider + " status " + status, Toast.LENGTH_SHORT).show();
 		Log.w(MY_TAG, "Dans onStatusChanged " + status);
 	}
 }
