@@ -46,7 +46,7 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		public void handleMessage(Message msg) {
 			Log.w(MY_TAG, "dans ServiceHandler.handleMessage");
 			// TODO paramètre : temps maximum de vie du service ! (24 heures pour le moment)
-			long endTime = System.currentTimeMillis() + 10*1000; //24*60*60*1000;
+			long endTime = System.currentTimeMillis() + 24*60*60*1000;
 			while (System.currentTimeMillis() < endTime) {
 				synchronized (this) {
 					try {
