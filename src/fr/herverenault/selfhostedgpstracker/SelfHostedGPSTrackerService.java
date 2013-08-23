@@ -23,8 +23,11 @@ import android.widget.Toast;
 public class SelfHostedGPSTrackerService extends Service implements LocationListener {
 
 	private final static String MY_TAG = "SelfHostedGPSTrackerService";
-	public static final String GPS_STATUS = "gps_status";
+	
 	public static final String NOTIFICATION = "fr.herverenault.selfhostedgpstracker";
+	public static final String GPS_STATUS = "gps_status";
+	public static final String SERVICE_STOPPED = "service_stopped";
+	
 
 	public static boolean isRunning;
 	
@@ -116,6 +119,11 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 	public void onDestroy() {
 		Toast.makeText(this, R.string.toast_stopped, Toast.LENGTH_SHORT).show();
 		Log.w(MY_TAG, "service done");
+
+		Intent intent = new Intent(NOTIFICATION);
+		intent.putExtra(SERVICE_STOPPED, true);
+		sendBroadcast(intent);
+
 		locationManager.removeUpdates(this);
 		isRunning = false;
 	}

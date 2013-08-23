@@ -30,10 +30,16 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 		public void onReceive(Context context, Intent intent) {
 			Bundle bundle = intent.getExtras();
 			if (bundle != null) {
-				String gpsStatus = getString(bundle.getInt(SelfHostedGPSTrackerService.GPS_STATUS));
-				Log.w(MY_TAG, "dans onReceive, gpsStatus == " + gpsStatus);
-				text_gps_status.setText(gpsStatus);
-				
+				int gpsStatus = bundle.getInt(SelfHostedGPSTrackerService.GPS_STATUS);
+				boolean serviceStopped = bundle.getBoolean(SelfHostedGPSTrackerService.SERVICE_STOPPED);
+				if (gpsStatus > 0) {
+					Log.w(MY_TAG, "dans onReceive, gpsStatus == " + getString(gpsStatus));
+					text_gps_status.setText(getString(gpsStatus));
+				}
+				if (serviceStopped) {
+					Log.w(MY_TAG, "dans onReceive, serviceStopped !!!!!!!");
+					button_toggle.setChecked(false); // service has stopped
+				}
 			}
 		}
 	};
