@@ -4,6 +4,10 @@
     android:layout_height="match_parent"
     tools:context=".SelfHostedGPSTrackerActivity" >
 
+    <LinearLayout
+    android:focusable="true" android:focusableInTouchMode="true"
+    android:layout_width="0px" android:layout_height="0px"/>
+    
     <EditText
         android:id="@+id/edit_url"
         android:layout_width="wrap_content"
@@ -13,6 +17,7 @@
         android:layout_below="@+id/text_legend_url_0"
         android:ems="10"
         android:hint="@string/hint_url"
+        android:nextFocusUp="@id/edit_url" android:nextFocusLeft="@id/edit_url"
         android:inputType="textUri" >
 
         <requestFocus />

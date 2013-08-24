@@ -7,12 +7,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -23,6 +28,7 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 	
 	private LocationManager locationManager;
 	
+	private EditText edit_url;
 	private TextView text_gps_status;
 	private TextView text_network_status;
 	private ToggleButton button_toggle;
@@ -41,11 +47,38 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_self_hosted_gpstracker);
 
+		edit_url = (EditText)findViewById(R.id.edit_url);
 		text_gps_status = (TextView)findViewById(R.id.text_gps_status);
 		text_network_status = (TextView)findViewById(R.id.text_network_status);
 		button_toggle = (ToggleButton)findViewById(R.id.button_toggle);
 		text_running_since = (TextView)findViewById(R.id.text_running_since);
 		
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		if (preferences.contains("URL") && ! preferences.getString("URL", "").equals("")) {
+			edit_url.setText(preferences.getString("URL", getString(R.string.hint_url)));
+			edit_url.clearFocus();
+		} else {
+			edit_url.requestFocus();
+		}
+		edit_url.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				Log.d(MY_TAG, "onTextChanged");
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				Log.d(MY_TAG, "beforeTextChanged");	
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				Log.d(MY_TAG, "afterTextChanged");
+				SharedPreferences.Editor editor = preferences.edit();
+				editor.putString("URL", s.toString());
+				editor.commit();
+			}
+		});
 		// receive messages from the service
 		registerReceiver(receiver, new IntentFilter(SelfHostedGPSTrackerService.NOTIFICATION));
 		// current gps status

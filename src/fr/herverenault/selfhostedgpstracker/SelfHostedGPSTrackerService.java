@@ -8,6 +8,7 @@ import java.util.Calendar;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -18,6 +19,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -46,7 +48,7 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		public void handleMessage(Message msg) {
 			Log.d(MY_TAG, "dans ServiceHandler.handleMessage");
 			// TODO paramètre : temps maximum de vie du service ! (24 heures pour le moment)
-			long endTime = System.currentTimeMillis() + 30000; // 24*60*60*1000;
+			long endTime = System.currentTimeMillis() + 24*60*60*1000;
 			while (System.currentTimeMillis() < endTime) {
 				synchronized (this) {
 					try {
@@ -139,7 +141,15 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		//Toast.makeText(this, location.getLatitude() + "\n" + location.getLongitude(), Toast.LENGTH_SHORT).show();
 		Log.d(MY_TAG, "Dans onLocationChanged !!!!!!!!!!!!");
 		try {
-			URL url = new URL("http://herverenault.fr/gps?lat=" + location.getLatitude() + "&lon=" + location.getLongitude());	
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+			String urlText = preferences.getString("URL", "");
+			if (urlText.contains("?")) {
+				urlText = urlText + "&"; 
+			} else {
+				urlText = urlText + "?";
+			}
+			urlText = urlText + "lat=" + location.getLatitude() + "&lon=" + location.getLongitude();
+			URL url = new URL(urlText);	
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setReadTimeout(10000 /* milliseconds */);
 			conn.setConnectTimeout(15000 /* milliseconds */);
