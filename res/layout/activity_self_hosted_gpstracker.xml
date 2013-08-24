@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SelfHostedGPSTrackerActivity" >
-    
-    
+
     <EditText
         android:id="@+id/edit_url"
         android:layout_width="wrap_content"
@@ -18,13 +17,13 @@
 
         <requestFocus />
     </EditText>
-    
+
     <TextView
         android:id="@+id/text_legend_url_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/edit_url"
+        android:layout_centerHorizontal="true"
         android:text="@string/text_legend_url_1"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -32,8 +31,8 @@
         android:id="@+id/text_legend_url_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/text_legend_url_1"
+        android:layout_centerHorizontal="true"
         android:text="@string/text_legend_url_2"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -41,39 +40,10 @@
         android:id="@+id/text_legend_url_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/text_legend_url_2"
+        android:layout_centerHorizontal="true"
         android:text="@string/text_legend_url_3"
         android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    
-    <TextView
-        android:id="@+id/text_network_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/text_gps_status"
-        android:text="@string/text_network_status" />
-    <TextView
-        android:id="@+id/text_gps_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/text_gps_status" />
-
-    <ToggleButton
-        android:id="@+id/button_toggle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/text_gps_status"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
-        android:checked="false"
-        android:onClick="onToggleClicked"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textOff="@string/button_toggle"
-        android:textOn="@string/button_toggle" />
 
     <TextView
         android:id="@+id/text_legend_url_0"
@@ -83,5 +53,44 @@
         android:layout_centerHorizontal="true"
         android:text="@string/text_legend_url_0"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/text_network_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_legend_url_3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="@string/text_network_status" />
+
+    <TextView
+        android:id="@+id/text_gps_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_network_status"
+        android:layout_centerHorizontal="true"
+        android:text="@string/text_gps_status" />
+
+    <ToggleButton
+        android:id="@+id/button_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_gps_status"
+        android:layout_centerHorizontal="true"
+        android:checked="false"
+        android:onClick="onToggleClicked"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textOff="@string/button_toggle"
+        android:textOn="@string/button_toggle" />
+
+    <TextView
+        android:id="@+id/text_running_since"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_toggle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

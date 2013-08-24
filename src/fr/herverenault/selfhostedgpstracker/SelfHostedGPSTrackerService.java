@@ -3,6 +3,7 @@ package fr.herverenault.selfhostedgpstracker;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 
 import android.app.Service;
 import android.content.Context;
@@ -25,11 +26,10 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 	private final static String MY_TAG = "SelfHostedGPSTrackerService";
 	
 	public static final String NOTIFICATION = "fr.herverenault.selfhostedgpstracker";
-	public static final String GPS_STATUS = "gps_status";
-	public static final String SERVICE_STOPPED = "service_stopped";
-	
 
 	public static boolean isRunning;
+	public static Calendar runningSince;
+	public static Calendar stoppedOn;
 	
 	// http://developer.android.com/guide/components/services.html#ExtendingService
 	private Looper mServiceLooper;
@@ -44,9 +44,9 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		}
 		@Override
 		public void handleMessage(Message msg) {
-			Log.w(MY_TAG, "dans ServiceHandler.handleMessage");
+			Log.d(MY_TAG, "dans ServiceHandler.handleMessage");
 			// TODO paramètre : temps maximum de vie du service ! (24 heures pour le moment)
-			long endTime = System.currentTimeMillis() + 24*60*60*1000;
+			long endTime = System.currentTimeMillis() + 30000; // 24*60*60*1000;
 			while (System.currentTimeMillis() < endTime) {
 				synchronized (this) {
 					try {
@@ -63,9 +63,8 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 
 	@Override
 	public void onCreate() {
-		Log.w(MY_TAG, "dans onCreate");
-		isRunning = true;
-
+		Log.d(MY_TAG, "dans onCreate");
+		
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			onProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -75,9 +74,9 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		
 		Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER); // TODO useless ?
 		if (location != null) {
-			Log.w(MY_TAG, "last known location : " + location.getLatitude() + " " + location.getLongitude());
+			Log.d(MY_TAG, "last known location : " + location.getLatitude() + " " + location.getLongitude());
 		} else {
-			Log.w(MY_TAG, "last location unknown.");
+			Log.d(MY_TAG, "last location unknown.");
 		}
 		
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 3, this); // TODO paramétrable !!!! (30 sec, 3 mètres)
@@ -92,12 +91,17 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		// Get the HandlerThread's Looper and use it for our Handler 
 		mServiceLooper = thread.getLooper();
 		mServiceHandler = new ServiceHandler(mServiceLooper);
+		
+		isRunning = true;
+		runningSince = Calendar.getInstance();
+		Intent intent = new Intent(NOTIFICATION);
+		sendBroadcast(intent);
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Toast.makeText(this, R.string.toast_started, Toast.LENGTH_SHORT).show();
-		Log.w(MY_TAG, "dans onStartCommand");
+		Log.d(MY_TAG, "dans onStartCommand");
 
 		// For each start request, send a message to start a job and deliver the
 		// start ID so we know which request we're stopping when we finish the job
@@ -118,14 +122,14 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 	@Override
 	public void onDestroy() {
 		Toast.makeText(this, R.string.toast_stopped, Toast.LENGTH_SHORT).show();
-		Log.w(MY_TAG, "service done");
-
-		Intent intent = new Intent(NOTIFICATION);
-		intent.putExtra(SERVICE_STOPPED, true);
-		sendBroadcast(intent);
+		Log.d(MY_TAG, "service done");
 
 		locationManager.removeUpdates(this);
+		
 		isRunning = false;
+		stoppedOn = Calendar.getInstance();
+		Intent intent = new Intent(NOTIFICATION);
+		sendBroadcast(intent);
 	}
 
 	/* -------------- GPS stuff -------------- */
@@ -133,7 +137,7 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 	@Override
 	public void onLocationChanged(Location location) {
 		//Toast.makeText(this, location.getLatitude() + "\n" + location.getLongitude(), Toast.LENGTH_SHORT).show();
-		Log.w(MY_TAG, "Dans onLocationChanged !!!!!!!!!!!!");
+		Log.d(MY_TAG, "Dans onLocationChanged !!!!!!!!!!!!");
 		try {
 			URL url = new URL("http://herverenault.fr/gps?lat=" + location.getLatitude() + "&lon=" + location.getLongitude());	
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -143,34 +147,28 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 			conn.setDoInput(true);
 			conn.connect();
 			int response = conn.getResponseCode();
-			Log.w(MY_TAG, "Requête HTTP retourne : " + response);
+			Log.d(MY_TAG, "Requête HTTP retourne : " + response);
 		} catch (IOException e) {
 			//e.printStackTrace();
-			Log.w(MY_TAG, "Requête HTTP impossible !");
+			Log.d(MY_TAG, "Requête HTTP impossible !");
 		}
 	}
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		Intent intent = new Intent(NOTIFICATION);
-		intent.putExtra(GPS_STATUS, R.string.text_gps_status_disabled);
-		sendBroadcast(intent);
 		//Toast.makeText(this, R.string.text_gps_status_disabled, Toast.LENGTH_SHORT).show();
-		Log.w(MY_TAG, "Dans onProviderDisabled");
+		Log.d(MY_TAG, "Dans onProviderDisabled");
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		Intent intent = new Intent(NOTIFICATION);
-		intent.putExtra(GPS_STATUS, R.string.text_gps_status_enabled);
-		sendBroadcast(intent);
 		//Toast.makeText(this, R.string.text_gps_status_enabled, Toast.LENGTH_SHORT).show();
-		Log.w(MY_TAG, "Dans onProviderEnabled");
+		Log.d(MY_TAG, "Dans onProviderEnabled");
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		//Toast.makeText(this, provider + " status " + status, Toast.LENGTH_SHORT).show();
-		Log.w(MY_TAG, "Dans onStatusChanged " + status);
+		Log.d(MY_TAG, "Dans onStatusChanged " + status);
 	}
 }

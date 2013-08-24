@@ -24,6 +24,9 @@
     <string name="text_gps_status_enabled">GPS enabled</string>
     <string name="text_gps_status_disabled">Warning ! GPS disabled !</string>
     
+    <string name="text_running_since">Running since</string>
+    <string name="text_stopped_on">Stopped on</string>
+    
     <string name="toast_started">Started</string>
 	<string name="toast_stopped">Stopped</string>
 </resources>
