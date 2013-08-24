@@ -11,6 +11,8 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -27,8 +29,10 @@ import android.widget.ToggleButton;
 public class SelfHostedGPSTrackerActivity extends Activity implements LocationListener {
 
 	private final static String MY_TAG = "SelfHostedGPSTrackerActivity";
+	private final static String CONNECTIVITY = "android.net.conn.CONNECTIVITY_CHANGE";
 
 	private LocationManager locationManager;
+	private ConnectivityManager connectivityManager;
 
 	private EditText edit_url;
 	private TextView text_gps_status;
@@ -39,8 +43,15 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d(MY_TAG, "dans onReceive ! appelée uniquement pour demander d'updater le status du service");
-			updateServiceStatus();
+			String action = intent.getAction();
+			Log.d(MY_TAG, "dans onReceive ! intent == " + action);
+			
+			if (action.equals(SelfHostedGPSTrackerService.NOTIFICATION)) {
+				updateServiceStatus();
+			}
+			if (action.equals(CONNECTIVITY)) {
+				updateNetworkStatus();
+			}
 		}
 	};
 
@@ -81,10 +92,12 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 				editor.commit();
 			}
 		});
-		// receive messages from the service
+		
 		registerReceiver(receiver, new IntentFilter(SelfHostedGPSTrackerService.NOTIFICATION));
-		// current gps status
+		registerReceiver(receiver, new IntentFilter(SelfHostedGPSTrackerActivity.CONNECTIVITY));
+		
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 
 		int pref_gps_updates = Integer.parseInt(preferences.getString("pref_gps_updates", "30")); // seconds		
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, pref_gps_updates * 1000, 1, this);
@@ -93,12 +106,15 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 	@Override
 	public void onResume() {
 		super.onResume();
+
 		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			onProviderEnabled(LocationManager.GPS_PROVIDER);
 		} else {
 			onProviderDisabled(LocationManager.GPS_PROVIDER);
 		}
 
+		updateNetworkStatus();
+		
 		updateServiceStatus();
 	}
 
@@ -132,7 +148,7 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	public void onToggleClicked(View view) {
 		Intent intent = new Intent(this, SelfHostedGPSTrackerService.class);
 		if (((ToggleButton) view).isChecked()) {
@@ -178,6 +194,15 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 				text_running_since.setText(getString(R.string.text_stopped_on) + " " 
 						+ DateFormat.getDateTimeInstance().format(SelfHostedGPSTrackerService.stoppedOn.getTime()));
 			}
+		}
+	}
+	
+	private void updateNetworkStatus() {
+		NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+		if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
+			text_network_status.setText(getString(R.string.text_network_status_enabled));
+		} else {
+			text_network_status.setText(getString(R.string.text_network_status_disabled));
 		}
 	}
 }
