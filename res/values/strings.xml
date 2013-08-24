@@ -11,6 +11,14 @@
     
     <string name="menu_settings">Settings</string>
     
+    <string name="pref_gps_updates">GPS Updates (seconds)</string>
+    <string name="pref_gps_updates_summary">Update GPS position approximately every… (30 seconds minimum)</string>
+    <string name="pref_gps_updates_too_low">Sorry, this value is too low</string>
+
+    <string name="pref_max_run_time">Max run time (hours)</string>
+    <string name="pref_max_run_time_summary">(defaults to 24 hours)</string>
+    <string name="pref_max_run_time_too_low">Sorry, this value is lower than GPS updates</string>
+    
     <string name="text_legend_url_0">Send GPS coordinates to :</string>
     <string name="text_legend_url_1">Example: http://helixo.fr/gps</string>
     <string name="text_legend_url_2">latitude and longitude added automatically</string>

@@ -16,6 +16,8 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -103,6 +105,27 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 		locationManager.removeUpdates(this);
 		unregisterReceiver(receiver);
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.activity_self_hosted_gpstracker, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent i;
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	        case R.id.menu_settings:
+	        	i = new Intent(this, SelfHostedGPSTrackerPrefs.class);
+	        	startActivityForResult(i, 0);
+	        	break;
+	        default:
+	    }
+	    return super.onOptionsItemSelected(item);
+	}
 
 	public void onToggleClicked(View view) {
 		Intent intent = new Intent(this, SelfHostedGPSTrackerService.class);
@@ -112,14 +135,6 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 			stopService(intent);
 	    }
 	}
-	
-	/*
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) { // TODO keep it even simpler : no need for settings activity !
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_self_hosted_gpstracker, menu);
-		return true;
-	} */
 	
 	/* -------------- GPS stuff -------------- */
 

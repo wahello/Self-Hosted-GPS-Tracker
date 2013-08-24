@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+	
+	<EditTextPreference
+        android:key="pref_gps_updates"
+        android:inputType="number"
+        android:title="@string/pref_gps_updates"
+        android:summary="@string/pref_gps_updates_summary"
+        android:defaultValue="30" />
+ 
+	<EditTextPreference
+        android:key="pref_max_run_time"
+        android:inputType="number"
+        android:title="@string/pref_max_run_time"
+        android:summary="@string/pref_max_run_time_summary"
+        android:defaultValue="24" />
+	
+</PreferenceScreen>
