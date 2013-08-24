@@ -169,12 +169,12 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 	/* ----------- utility methods -------------- */
 	private void updateServiceStatus() { 
 		if (SelfHostedGPSTrackerService.isRunning) {
-			Toast.makeText(this, "Service is running", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.toast_service_running), Toast.LENGTH_SHORT).show();
 			button_toggle.setChecked(true);
 			text_running_since.setText(getString(R.string.text_running_since) + " " 
 					+ DateFormat.getDateTimeInstance().format(SelfHostedGPSTrackerService.runningSince.getTime()));
 		} else {
-			Toast.makeText(this, "Service is NOT running", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.toast_service_stopped), Toast.LENGTH_SHORT).show();
 			button_toggle.setChecked(false);
 			if (SelfHostedGPSTrackerService.stoppedOn != null) {
 				text_running_since.setText(getString(R.string.text_stopped_on) + " " 

@@ -145,28 +145,15 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 	public void onLocationChanged(Location location) {
 		//Toast.makeText(this, location.getLatitude() + "\n" + location.getLongitude(), Toast.LENGTH_SHORT).show();
 		Log.d(MY_TAG, "Dans onLocationChanged !!!!!!!!!!!!");
-		try {
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-			String urlText = preferences.getString("URL", "");
-			if (urlText.contains("?")) {
-				urlText = urlText + "&"; 
-			} else {
-				urlText = urlText + "?";
-			}
-			urlText = urlText + "lat=" + location.getLatitude() + "&lon=" + location.getLongitude();
-			URL url = new URL(urlText);	
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setReadTimeout(10000 /* milliseconds */);
-			conn.setConnectTimeout(15000 /* milliseconds */);
-			conn.setRequestMethod("GET");
-			conn.setDoInput(true);
-			conn.connect();
-			int response = conn.getResponseCode();
-			Log.d(MY_TAG, "Requête HTTP retourne : " + response);
-		} catch (IOException e) {
-			//e.printStackTrace();
-			Log.d(MY_TAG, "Requête HTTP impossible !");
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		String urlText = preferences.getString("URL", "");
+		if (urlText.contains("?")) {
+			urlText = urlText + "&"; 
+		} else {
+			urlText = urlText + "?";
 		}
+		urlText = urlText + "lat=" + location.getLatitude() + "&lon=" + location.getLongitude();
+		new SelfHostedGPSTrackerRequest().execute(urlText);
 	}
 
 	@Override

@@ -37,5 +37,7 @@
     
     <string name="toast_started">Started</string>
 	<string name="toast_stopped">Stopped</string>
-	<string name="toast_prefs_restart">Don\'t forget to restart service !</string>
+	<string name="toast_service_running">Tracking is on</string>
+	<string name="toast_service_stopped">Trakcing is off</string>
+	<string name="toast_prefs_restart">Don\'t forget to restart tracking !</string>
 </resources>
