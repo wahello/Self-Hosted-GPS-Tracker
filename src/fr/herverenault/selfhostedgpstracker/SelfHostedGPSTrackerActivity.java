@@ -44,8 +44,6 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
-			Log.d(MY_TAG, "dans onReceive ! intent == " + action);
-			
 			if (action.equals(SelfHostedGPSTrackerService.NOTIFICATION)) {
 				updateServiceStatus();
 			}
@@ -76,17 +74,14 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 		edit_url.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				Log.d(MY_TAG, "onTextChanged");
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				Log.d(MY_TAG, "beforeTextChanged");	
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				Log.d(MY_TAG, "afterTextChanged");
 				SharedPreferences.Editor editor = preferences.edit();
 				editor.putString("URL", s.toString());
 				editor.commit();
@@ -166,13 +161,11 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		Log.d(MY_TAG, "GPS disabled !");
 		text_gps_status.setText(getString(R.string.text_gps_status_disabled));
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		Log.d(MY_TAG, "GPS enabled !");
 		text_gps_status.setText(getString(R.string.text_gps_status_enabled));
 	}
 

@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class SelfHostedGPSTrackerRequest extends AsyncTask<String, Void, Void> {
+	private final static String MY_TAG = "SelfHostedGPSTrackerRequest";
+	
 	protected Void doInBackground(String... urlText) {
 		try {
 			URL url = new URL(urlText[0]);	
@@ -17,9 +19,10 @@ public class SelfHostedGPSTrackerRequest extends AsyncTask<String, Void, Void> {
 			conn.setDoInput(true);
 			conn.connect();
 			int response = conn.getResponseCode();
-		} catch (Exception e) { // we cannot do anything about that : network may be temporarily down
-			Log.d(this.getClass().getName(), "Requête HTTP impossible");
-			// e.printStackTrace();
+			// that's ok, nothing more to do here
+		} catch (Exception e) {
+			// we cannot do anything about that : network may be temporarily down
+			Log.d(MY_TAG, "HTTP request failed");
 		}
 		return null;
 	}

@@ -43,7 +43,6 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		}
 		@Override
 		public void handleMessage(Message msg) {
-			Log.d(MY_TAG, "dans ServiceHandler.handleMessage");
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 			int pref_max_run_time = Integer.parseInt(preferences.getString("pref_max_run_time", "24")); // hours
 
@@ -64,7 +63,7 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 
 	@Override
 	public void onCreate() {
-		Log.d(MY_TAG, "dans onCreate");
+		Log.d(MY_TAG, "in onCreate");
 		
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -72,14 +71,7 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		} else {
 			onProviderDisabled(LocationManager.GPS_PROVIDER);
 		}
-		
-		Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER); // TODO useless ?
-		if (location != null) {
-			Log.d(MY_TAG, "last known location : " + location.getLatitude() + " " + location.getLongitude());
-		} else {
-			Log.d(MY_TAG, "last location unknown.");
-		}
-		
+				
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		int pref_gps_updates = Integer.parseInt(preferences.getString("pref_gps_updates", "30")); // seconds
 		
@@ -126,7 +118,7 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 	@Override
 	public void onDestroy() {
 		Toast.makeText(this, R.string.toast_stopped, Toast.LENGTH_SHORT).show();
-		Log.d(MY_TAG, "service done");
+		Log.d(MY_TAG, "in onDestroy");
 
 		locationManager.removeUpdates(this);
 		
@@ -140,8 +132,7 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 
 	@Override
 	public void onLocationChanged(Location location) {
-		//Toast.makeText(this, location.getLatitude() + "\n" + location.getLongitude(), Toast.LENGTH_SHORT).show();
-		Log.d(MY_TAG, "Dans onLocationChanged !!!!!!!!!!!!");
+		Log.d(MY_TAG, "in onLocationChanged !");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		String urlText = preferences.getString("URL", "");
 		if (urlText.contains("?")) {
@@ -155,19 +146,13 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		//Toast.makeText(this, R.string.text_gps_status_disabled, Toast.LENGTH_SHORT).show();
-		Log.d(MY_TAG, "Dans onProviderDisabled");
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		//Toast.makeText(this, R.string.text_gps_status_enabled, Toast.LENGTH_SHORT).show();
-		Log.d(MY_TAG, "Dans onProviderEnabled");
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		//Toast.makeText(this, provider + " status " + status, Toast.LENGTH_SHORT).show();
-		Log.d(MY_TAG, "Dans onStatusChanged " + status);
 	}
 }
