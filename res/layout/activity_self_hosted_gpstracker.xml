@@ -71,6 +71,7 @@
         android:layout_marginTop="17dp"
         android:checked="false"
         android:onClick="onToggleClicked"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textOff="@string/button_toggle"
         android:textOn="@string/button_toggle" />
 
