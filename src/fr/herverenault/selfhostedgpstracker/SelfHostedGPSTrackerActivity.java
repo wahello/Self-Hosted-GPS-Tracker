@@ -27,7 +27,6 @@ import android.widget.ToggleButton;
 public class SelfHostedGPSTrackerActivity extends Activity implements LocationListener {
 
 	private final static String MY_TAG = "SelfHostedGPSTrackerActivity";
-	private final static int PREFS_RESULT = 1;
 
 	private LocationManager locationManager;
 
@@ -129,24 +128,13 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 		switch (item.getItemId()) {
 		case R.id.menu_settings:
 			i = new Intent(this, SelfHostedGPSTrackerPrefs.class);
-			startActivityForResult(i, PREFS_RESULT);
+			startActivity(i);
 			break;
 		default:
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == PREFS_RESULT) {
-			Intent intent = new Intent(this, SelfHostedGPSTrackerService.class);
-			if (SelfHostedGPSTrackerService.isRunning) {
-				Toast.makeText(this, "Restarting service", Toast.LENGTH_SHORT).show();
-				stopService(intent);
-				startService(intent);
-			}
-		}
-	}
-
+	
 	public void onToggleClicked(View view) {
 		Intent intent = new Intent(this, SelfHostedGPSTrackerService.class);
 		if (((ToggleButton) view).isChecked()) {
