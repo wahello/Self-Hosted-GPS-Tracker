@@ -3,7 +3,7 @@
 
     <string name="app_name">Self-Hosted GPS Tracker</string>
     
-    <string name="button_toggle">Track</string>
+    <string name="button_toggle">Tracking</string>
     <string name="button_toggle_start">Start</string>
     <string name="button_toggle_stop">Stop</string>
     

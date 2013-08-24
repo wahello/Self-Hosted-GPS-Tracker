@@ -97,5 +97,15 @@
         android:layout_marginTop="10dp"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_running_since"
+        android:layout_marginTop="10dp"
+        android:contentDescription="logo"
+        android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>
