@@ -3,9 +3,7 @@
 
     <string name="app_name">Self-Hosted GPS Tracker</string>
     
-    <string name="button_toggle">Tracking</string>
-    <string name="button_toggle_start">Start</string>
-    <string name="button_toggle_stop">Stop</string>
+    <string name="button_toggle">Tracker</string>
     
     <string name="hint_url">http(s)://server/path</string>
     
@@ -26,18 +24,18 @@
     
     <string name="text_network_status">Unknown network status</string>
     <string name="text_network_status_enabled">Network enabled</string>
-    <string name="text_network_status_disabled">Warning ! Network disabled</string>
+    <string name="text_network_status_disabled">Warning! Network disabled!</string>
     
     <string name="text_gps_status">Unknown GPS status</string>
     <string name="text_gps_status_enabled">GPS enabled</string>
-    <string name="text_gps_status_disabled">Warning ! GPS disabled !</string>
+    <string name="text_gps_status_disabled">Warning! GPS disabled!</string>
     
     <string name="text_running_since">Running since</string>
     <string name="text_stopped_on">Stopped on</string>
     
     <string name="toast_started">Started</string>
 	<string name="toast_stopped">Stopped</string>
-	<string name="toast_service_running">Tracking is on</string>
-	<string name="toast_service_stopped">Tracking is off</string>
-	<string name="toast_prefs_restart">Don\'t forget to restart tracking !</string>
+	<string name="toast_service_running">Tracker is on</string>
+	<string name="toast_service_stopped">Tracker is off</string>
+	<string name="toast_prefs_restart">Don\'t forget to restart tracking!</string>
 </resources>

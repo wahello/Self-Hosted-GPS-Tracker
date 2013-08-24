@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">Traceur GPS auto-hebergé</string>
+    
+    <string name="button_toggle">Traceur</string>
+    
+    <string name="hint_url">http(s)://serveur/chemin</string>
+    
+    <string name="menu_settings">Réglages</string>
+    
+    <string name="pref_gps_updates">Mises à jour GPS (secondes)</string>
+    <string name="pref_gps_updates_summary">Met à jour la position GPS toutes les… (30 secondes mini)</string>
+    <string name="pref_gps_updates_too_low">Désolé, cette valeur est trop basse</string>
+
+    <string name="pref_max_run_time">Temps maxi d\'exécution (heures)</string>
+    <string name="pref_max_run_time_summary">(24 heures par défaut)</string>
+    <string name="pref_max_run_time_too_low">Désolé, cette valeur est trop basse</string>
+    
+    <string name="text_legend_url_0">Envoyer ma position à :</string>
+    <string name="text_legend_url_1">Exemple: http://herverenault.fr/gps</string>
+    <string name="text_legend_url_2">latitude et longitude ajoutées automatiquement</string>
+    <string name="text_legend_url_3">par ex. http://herverenault.fr/gps?lat=…&amp;lon=…</string>
+    
+    <string name="text_network_status">État du réseau inconnu</string>
+    <string name="text_network_status_enabled">Connexion internet établie</string>
+    <string name="text_network_status_disabled">Attention ! Pas de connexion internet !</string>
+    
+    <string name="text_gps_status">État du GPS inconnu</string>
+    <string name="text_gps_status_enabled">GPS activé</string>
+    <string name="text_gps_status_disabled">Attention ! GPS désactivé !</string>
+    
+    <string name="text_running_since">Fonctionne depuis</string>
+    <string name="text_stopped_on">Arrêté depuis</string>
+    
+    <string name="toast_started">Démarré</string>
+	<string name="toast_stopped">Arrêté</string>
+	<string name="toast_service_running">Le traceur est en marche</string>
+	<string name="toast_service_stopped">Le traceur est arrếté</string>
+	<string name="toast_prefs_restart">N\'oubliez pas de redémarrer le traceur !</string>
+	
+</resources>
