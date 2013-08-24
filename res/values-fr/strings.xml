@@ -30,8 +30,8 @@
     <string name="text_gps_status_enabled">GPS activé</string>
     <string name="text_gps_status_disabled">Attention ! GPS désactivé !</string>
     
-    <string name="text_running_since">Fonctionne depuis</string>
-    <string name="text_stopped_on">Arrêté depuis</string>
+    <string name="text_running_since">Fonctionne depuis le</string>
+    <string name="text_stopped_on">Arrêté depuis le</string>
     
     <string name="toast_started">Démarré</string>
 	<string name="toast_stopped">Arrêté</string>

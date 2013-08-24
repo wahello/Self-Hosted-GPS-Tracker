@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -162,11 +163,13 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 	@Override
 	public void onProviderDisabled(String provider) {
 		text_gps_status.setText(getString(R.string.text_gps_status_disabled));
+		text_gps_status.setTextColor(Color.RED);
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
 		text_gps_status.setText(getString(R.string.text_gps_status_enabled));
+		text_gps_status.setTextColor(Color.BLACK);
 	}
 
 	@Override
@@ -194,8 +197,10 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 		NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
 		if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
 			text_network_status.setText(getString(R.string.text_network_status_enabled));
+			text_network_status.setTextColor(Color.BLACK);
 		} else {
 			text_network_status.setText(getString(R.string.text_network_status_disabled));
+			text_network_status.setTextColor(Color.RED);
 		}
 	}
 }
