@@ -47,8 +47,10 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 		@Override
 		public void handleMessage(Message msg) {
 			Log.d(MY_TAG, "dans ServiceHandler.handleMessage");
-			// TODO paramètre : temps maximum de vie du service ! (24 heures pour le moment)
-			long endTime = System.currentTimeMillis() + 24*60*60*1000;
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+			int pref_max_run_time = Integer.parseInt(preferences.getString("pref_max_run_time", "24")); // hours
+
+			long endTime = System.currentTimeMillis() + pref_max_run_time*60*60*1000;
 			while (System.currentTimeMillis() < endTime) {
 				synchronized (this) {
 					try {
@@ -81,7 +83,10 @@ public class SelfHostedGPSTrackerService extends Service implements LocationList
 			Log.d(MY_TAG, "last location unknown.");
 		}
 		
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 3, this); // TODO paramétrable !!!! (30 sec, 3 mètres)
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		int pref_gps_updates = Integer.parseInt(preferences.getString("pref_gps_updates", "30")); // seconds
+		
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, pref_gps_updates * 1000, 1, this);
 
 		// Start up the thread running the service.  Note that we create a
 		// separate thread because the service normally runs in the process's

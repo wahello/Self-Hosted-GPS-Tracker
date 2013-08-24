@@ -22,7 +22,7 @@
     <string name="text_legend_url_0">Send GPS coordinates to :</string>
     <string name="text_legend_url_1">Example: http://helixo.fr/gps</string>
     <string name="text_legend_url_2">latitude and longitude added automatically</string>
-    <string name="text_legend_url_3">as in http://myself.com/gps?lat=…&amp;lon=…</string>
+    <string name="text_legend_url_3">as in http://helixo.fr/gps?lat=…&amp;lon=…</string>
     
     <string name="text_network_status">Unknown network status</string>
     <string name="text_network_status_enabled">Network enabled</string>
@@ -37,4 +37,5 @@
     
     <string name="toast_started">Started</string>
 	<string name="toast_stopped">Stopped</string>
+	<string name="toast_prefs_restart">Don\'t forget to restart service !</string>
 </resources>

@@ -27,15 +27,16 @@ import android.widget.ToggleButton;
 public class SelfHostedGPSTrackerActivity extends Activity implements LocationListener {
 
 	private final static String MY_TAG = "SelfHostedGPSTrackerActivity";
-	
+	private final static int PREFS_RESULT = 1;
+
 	private LocationManager locationManager;
-	
+
 	private EditText edit_url;
 	private TextView text_gps_status;
 	private TextView text_network_status;
 	private ToggleButton button_toggle;
 	private TextView text_running_since;
-	
+
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -54,7 +55,7 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 		text_network_status = (TextView)findViewById(R.id.text_network_status);
 		button_toggle = (ToggleButton)findViewById(R.id.button_toggle);
 		text_running_since = (TextView)findViewById(R.id.text_running_since);
-		
+
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		if (preferences.contains("URL") && ! preferences.getString("URL", "").equals("")) {
 			edit_url.setText(preferences.getString("URL", getString(R.string.hint_url)));
@@ -67,12 +68,12 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				Log.d(MY_TAG, "onTextChanged");
 			}
-			
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 				Log.d(MY_TAG, "beforeTextChanged");	
 			}
-			
+
 			@Override
 			public void afterTextChanged(Editable s) {
 				Log.d(MY_TAG, "afterTextChanged");
@@ -85,12 +86,20 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 		registerReceiver(receiver, new IntentFilter(SelfHostedGPSTrackerService.NOTIFICATION));
 		// current gps status
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 3, this); // TODO paramétrable !!!! (30 sec, 3 mètres)
+
+		int pref_gps_updates = Integer.parseInt(preferences.getString("pref_gps_updates", "30")); // seconds		
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, pref_gps_updates * 1000, 1, this);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			onProviderEnabled(LocationManager.GPS_PROVIDER);
+		} else {
+			onProviderDisabled(LocationManager.GPS_PROVIDER);
+		}
+
 		updateServiceStatus();
 	}
 
@@ -98,66 +107,77 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 	public void onPause() {
 		super.onPause();
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		locationManager.removeUpdates(this);
 		unregisterReceiver(receiver);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_self_hosted_gpstracker, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent i;
-	    // Handle item selection
-	    switch (item.getItemId()) {
-	        case R.id.menu_settings:
-	        	i = new Intent(this, SelfHostedGPSTrackerPrefs.class);
-	        	startActivityForResult(i, 0);
-	        	break;
-	        default:
-	    }
-	    return super.onOptionsItemSelected(item);
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.menu_settings:
+			i = new Intent(this, SelfHostedGPSTrackerPrefs.class);
+			startActivityForResult(i, PREFS_RESULT);
+			break;
+		default:
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == PREFS_RESULT) {
+			Intent intent = new Intent(this, SelfHostedGPSTrackerService.class);
+			if (SelfHostedGPSTrackerService.isRunning) {
+				Toast.makeText(this, "Restarting service", Toast.LENGTH_SHORT).show();
+				stopService(intent);
+				startService(intent);
+			}
+		}
 	}
 
 	public void onToggleClicked(View view) {
 		Intent intent = new Intent(this, SelfHostedGPSTrackerService.class);
-	    if (((ToggleButton) view).isChecked()) {
+		if (((ToggleButton) view).isChecked()) {
 			startService(intent);
-	    } else {
+		} else {
 			stopService(intent);
-	    }
+		}
 	}
-	
+
 	/* -------------- GPS stuff -------------- */
 
 	@Override
 	public void onLocationChanged(Location location) {
 	}
-	
+
 	@Override
 	public void onProviderDisabled(String provider) {
 		Log.d(MY_TAG, "GPS disabled !");
 		text_gps_status.setText(getString(R.string.text_gps_status_disabled));
 	}
-	
+
 	@Override
 	public void onProviderEnabled(String provider) {
 		Log.d(MY_TAG, "GPS enabled !");
 		text_gps_status.setText(getString(R.string.text_gps_status_enabled));
 	}
-	
+
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
-	
+
 	/* ----------- utility methods -------------- */
 	private void updateServiceStatus() { 
 		if (SelfHostedGPSTrackerService.isRunning) {

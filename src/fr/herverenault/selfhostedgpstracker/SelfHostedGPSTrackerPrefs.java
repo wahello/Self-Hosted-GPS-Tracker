@@ -25,6 +25,8 @@ public class SelfHostedGPSTrackerPrefs extends PreferenceActivity {
 						|| Integer.parseInt(newValue.toString()) < 30) { // user has been warned
 			        Toast.makeText(getApplicationContext(), getString(R.string.pref_gps_updates_too_low), Toast.LENGTH_SHORT).show();
 			        return false;
+				} else if (SelfHostedGPSTrackerService.isRunning) {
+					Toast.makeText(getApplicationContext(), getString(R.string.toast_prefs_restart), Toast.LENGTH_SHORT).show();
 				}
 				return true;
 			}
@@ -41,6 +43,8 @@ public class SelfHostedGPSTrackerPrefs extends PreferenceActivity {
 						|| (Integer.parseInt(newValue.toString()) * 3600) < pref_gps_updates) { // would not make sense...
 			        Toast.makeText(getApplicationContext(), getString(R.string.pref_max_run_time_too_low), Toast.LENGTH_SHORT).show();
 			        return false;
+				} else if (SelfHostedGPSTrackerService.isRunning) {
+					Toast.makeText(getApplicationContext(), getString(R.string.toast_prefs_restart), Toast.LENGTH_SHORT).show();
 				}
 				return true;
 			}
