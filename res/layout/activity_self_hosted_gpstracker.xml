@@ -5,8 +5,8 @@
     tools:context=".SelfHostedGPSTrackerActivity" >
 
     <LinearLayout
-        android:orientation="horizontal"
         android:id="@+id/focus_remover"
+        android:orientation="horizontal"
         android:layout_width="0px"
         android:layout_height="0px"
         android:focusable="true"
