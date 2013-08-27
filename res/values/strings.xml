@@ -5,6 +5,8 @@
     
     <string name="button_toggle">Tracker</string>
     
+    <string name="desc_logo">Logo</string>
+    
     <string name="hint_url">http(s)://server/path</string>
     
     <string name="menu_settings">Settings</string>
