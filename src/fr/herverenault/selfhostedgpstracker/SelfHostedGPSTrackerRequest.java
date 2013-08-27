@@ -19,6 +19,7 @@ public class SelfHostedGPSTrackerRequest extends AsyncTask<String, Void, Void> {
 			conn.setDoInput(true);
 			conn.connect();
 			int response = conn.getResponseCode();
+			Log.d(MY_TAG, "HTTP request done : " + response);
 			// that's ok, nothing more to do here
 		} catch (Exception e) {
 			// we cannot do anything about that : network may be temporarily down
