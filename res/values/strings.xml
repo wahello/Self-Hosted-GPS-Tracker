@@ -35,8 +35,6 @@
     <string name="text_running_since">Running since</string>
     <string name="text_stopped_on">Stopped on</string>
     
-    <string name="toast_started">Started</string>
-	<string name="toast_stopped">Stopped</string>
 	<string name="toast_service_running">Tracker is on</string>
 	<string name="toast_service_stopped">Tracker is off</string>
 	<string name="toast_prefs_restart">Don\'t forget to restart tracking!</string>
