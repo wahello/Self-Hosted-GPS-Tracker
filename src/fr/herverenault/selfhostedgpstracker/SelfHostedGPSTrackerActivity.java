@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +28,6 @@ import android.widget.ToggleButton;
 
 public class SelfHostedGPSTrackerActivity extends Activity implements LocationListener {
 
-	private final static String MY_TAG = "SelfHostedGPSTrackerActivity";
 	private final static String CONNECTIVITY = "android.net.conn.CONNECTIVITY_CHANGE";
 
 	private LocationManager locationManager;
