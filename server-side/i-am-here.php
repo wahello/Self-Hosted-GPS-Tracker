@@ -46,7 +46,7 @@ function createMap(lat, lon) {
 	      title:"I'm here"
 	});
 	google.maps.event.addListener(marker, "click", function(e) {
-		alert("GPS coordinates :\n" + marker.position.mb + "\n" + marker.position.nb);
+		alert("GPS coordinates :\n" + marker.getPosition().lat() + "\n" + marker.getPosition().lng());
 	});
 }
 
