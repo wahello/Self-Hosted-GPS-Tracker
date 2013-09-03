@@ -16,7 +16,7 @@
     <string name="pref_gps_updates_too_low">Sorry, this value is too low</string>
 
     <string name="pref_max_run_time">Max run time (hours)</string>
-    <string name="pref_max_run_time_summary">(defaults to 24 hours)</string>
+    <string name="pref_max_run_time_summary">(defaults to 8 hours)</string>
     <string name="pref_max_run_time_too_low">Sorry, this value is lower than GPS updates</string>
     
     <string name="text_legend_url_0">Send GPS coordinates to :</string>
@@ -34,6 +34,7 @@
     
     <string name="text_running_since">Running since</string>
     <string name="text_stopped_on">Stopped on</string>
+    <string name="text_killed">Android killed the application</string>
     
 	<string name="toast_service_running">Tracker is on</string>
 	<string name="toast_service_stopped">Tracker is off</string>

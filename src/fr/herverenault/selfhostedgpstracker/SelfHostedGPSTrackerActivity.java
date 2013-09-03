@@ -1,6 +1,7 @@
 package fr.herverenault.selfhostedgpstracker;
 
 import java.text.DateFormat;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -33,6 +34,7 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 	private LocationManager locationManager;
 	private ConnectivityManager connectivityManager;
 
+	SharedPreferences preferences;
 	private EditText edit_url;
 	private TextView text_gps_status;
 	private TextView text_network_status;
@@ -63,7 +65,7 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 		button_toggle = (ToggleButton)findViewById(R.id.button_toggle);
 		text_running_since = (TextView)findViewById(R.id.text_running_since);
 
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		if (preferences.contains("URL") && ! preferences.getString("URL", "").equals("")) {
 			edit_url.setText(preferences.getString("URL", getString(R.string.hint_url)));
 			edit_url.clearFocus();
@@ -175,7 +177,8 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 	}
 
 	/* ----------- utility methods -------------- */
-	private void updateServiceStatus() { 
+	private void updateServiceStatus() {
+		
 		if (SelfHostedGPSTrackerService.isRunning) {
 			Toast.makeText(this, getString(R.string.toast_service_running), Toast.LENGTH_SHORT).show();
 			button_toggle.setChecked(true);
@@ -184,9 +187,14 @@ public class SelfHostedGPSTrackerActivity extends Activity implements LocationLi
 		} else {
 			Toast.makeText(this, getString(R.string.toast_service_stopped), Toast.LENGTH_SHORT).show();
 			button_toggle.setChecked(false);
-			if (SelfHostedGPSTrackerService.stoppedOn != null) {
-				text_running_since.setText(getString(R.string.text_stopped_on) + " " 
-						+ DateFormat.getDateTimeInstance().format(SelfHostedGPSTrackerService.stoppedOn.getTime()));
+			if (preferences.contains("stoppedOn")) {
+				long stoppedOn = preferences.getLong("stoppedOn", 0);
+				if (stoppedOn > 0) {
+					text_running_since.setText(getString(R.string.text_stopped_on) + " " 
+							+ DateFormat.getDateTimeInstance().format(new Date(stoppedOn)));
+				} else {
+					text_running_since.setText(getText(R.string.text_killed));
+				}
 			}
 		}
 	}

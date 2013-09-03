@@ -14,7 +14,7 @@
     <string name="pref_gps_updates_too_low">Désolé, cette valeur est trop basse</string>
 
     <string name="pref_max_run_time">Temps maxi d\'exécution (heures)</string>
-    <string name="pref_max_run_time_summary">(24 heures par défaut)</string>
+    <string name="pref_max_run_time_summary">(8 heures par défaut)</string>
     <string name="pref_max_run_time_too_low">Désolé, cette valeur est trop basse</string>
     
     <string name="text_legend_url_0">Envoyer ma position à :</string>
@@ -32,6 +32,7 @@
     
     <string name="text_running_since">Fonctionne depuis le</string>
     <string name="text_stopped_on">Arrêté depuis le</string>
+    <string name="text_killed">Android a stoppé l\'application</string>
     
     <string name="toast_started">Démarré</string>
 	<string name="toast_stopped">Arrêté</string>

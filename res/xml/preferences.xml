@@ -13,6 +13,6 @@
         android:inputType="number"
         android:title="@string/pref_max_run_time"
         android:summary="@string/pref_max_run_time_summary"
-        android:defaultValue="24" />
+        android:defaultValue="8" />
 	
 </PreferenceScreen>
