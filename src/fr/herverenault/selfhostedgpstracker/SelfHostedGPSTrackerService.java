@@ -82,11 +82,9 @@ public class SelfHostedGPSTrackerService extends IntentService implements Locati
 				
 		long endTime = System.currentTimeMillis() + pref_max_run_time*60*60*1000;
 		while (System.currentTimeMillis() < endTime) {
-			synchronized (this) {
-				try {
-					wait(endTime - System.currentTimeMillis());
-				} catch (Exception e) {
-				}
+			try {
+				Thread.sleep(60*1000); // note: when device is sleeping, it may last up to 5 minutes or more
+			} catch (Exception e) {
 			}
 		}
 	}
